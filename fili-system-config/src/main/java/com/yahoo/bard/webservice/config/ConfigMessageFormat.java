@@ -32,6 +32,11 @@ public enum ConfigMessageFormat implements MessageFormatter {
             "Test application config from jar found at classpath location '%s'.  Only non jar test application configurations are allowed."
     ),
 
+    TOO_MANY_TEST_APPLICATION_CONFIGS(
+            "Only zero or one test application configurations is allowed, found %d",
+            "Only zero or one test application configurations is allowed, found resources: %s"
+    ),
+
     TOO_MANY_APPLICATION_CONFIGS(
             "Only zero or one application configurations is allowed, found %d",
             "Only zero or one application configurations is allowed, found resources: %s"
@@ -58,7 +63,10 @@ public enum ConfigMessageFormat implements MessageFormatter {
     ),
     // These are not an error message, only used for logging
     MODULE_FOUND_MESSAGE(
-        "Module named '%s' in resource '%s"
+            "Module '%s' found in resource '%s'"
+    ),
+    MODULE_DEPENDS_ON_MESSAGE(
+            "Module '%s' depends on modules '%s'"
     ),
 
     RESOURCE_LOAD_MESSAGE(

@@ -59,6 +59,19 @@ Current
 
 ### Changed:
 
+- [Clean up config loading and add more logs and checks]()
+    * Assert no more than 1 `testApplicationConfig` on classpath
+      - Assertion already existed for `userConfig` and `applicationConfig`
+    * Use correct logger in `ConfigurationGraph` (was `ConfigResourceLoader`)
+    * Add error / logging messages for
+      - Too many test application configs
+      - Module dependency indicator
+    * Tweak loading resources debug log to read better
+    * Tweak module found log to read better
+    * Convert from `Resource::getFilename` to `Resource::getDescription` when reporting errors in the configuration
+      graph. `getDescription` is more informative, usually holding the whole file path, rather than just the terminal
+      segment / file _name_
+
 - [Restore non-default query support in TestDruidWebservice](https://github.com/yahoo/fili/pull/202)
 
 - [Base TableDataSource serialization on ConcretePhysicalTable fact name](https://github.com/yahoo/fili/pull/202)
