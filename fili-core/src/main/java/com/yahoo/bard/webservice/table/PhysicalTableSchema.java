@@ -2,12 +2,20 @@
 // Licensed under the terms of the Apache license. Please see LICENSE.md file distributed with this work for terms.
 package com.yahoo.bard.webservice.table;
 
+import com.yahoo.bard.webservice.data.dimension.DimensionColumn;
+import com.yahoo.bard.webservice.data.metric.MetricColumn;
 import com.yahoo.bard.webservice.data.time.ZonedTimeGrain;
 
+import org.apache.commons.lang3.tuple.Pair;
+import org.joda.time.Interval;
+
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.validation.constraints.NotNull;
 
@@ -89,11 +97,44 @@ public class PhysicalTableSchema extends BaseSchema implements Schema {
     }
 
     /**
+     * Translate a physical column name into any columns in the physical table schema that map to it.
+     *
+     * @param name  The name of the physical column
+     *
+     * @return A stream of columns, empty if nothing in the schema matches this physical name
+     */
+    protected Stream<Column> getColumnForPhysicalName(String name) {
+        if (physicalToLogicalColumnNames.containsKey(name)) {
+            return physicalToLogicalColumnNames.get(name)
+                    .stream()
+                    .map(columnName -> getColumn(columnName, DimensionColumn.class).get());
+        }
+        Optional<? extends Column> metricColumn = getColumn(name, MetricColumn.class);
+        return metricColumn.<Stream<Column>>map(Stream::of).orElseGet(Stream::empty);
+    }
+
+    /**
      * Granularity.
      *
      * @return the granularity for this schema
      */
     public ZonedTimeGrain getTimeGrain() {
         return timeGrain;
+    }
+
+    /**
+     * Translate a map of physical availability data into logical available columns.
+     *
+     * @param availability  The raw availability for physical columns
+     *
+     * @return  The available data as mapped to columns in this schema
+     */
+    public Map<Column, List<Interval>> mapToColumns(Map<String, List<Interval>> availability) {
+        return availability.entrySet().stream()
+                .flatMap(entry -> getColumnForPhysicalName(entry.getKey()).map(column -> Pair.of(
+                        column,
+                        entry.getValue()
+                )))
+                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight));
     }
 }

@@ -3,7 +3,6 @@
 package com.yahoo.bard.webservice.table.availability;
 
 import com.yahoo.bard.webservice.data.config.names.TableName;
-import com.yahoo.bard.webservice.table.Column;
 import com.yahoo.bard.webservice.table.resolver.DataSourceConstraint;
 import com.yahoo.bard.webservice.util.SimplifiedIntervalList;
 
@@ -30,7 +29,7 @@ public interface Availability {
      *
      * @return The intervals, by column, available.
      */
-    Map<Column, List<Interval>> getAllAvailableIntervals();
+    Map<String, List<Interval>> getAllAvailableIntervals();
 
     /**
      * Fetch a set of intervals given a set of column name in DataSourceConstraint.

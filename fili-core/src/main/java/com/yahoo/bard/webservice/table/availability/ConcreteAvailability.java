@@ -61,15 +61,16 @@ public class ConcreteAvailability implements Availability {
     }
 
     @Override
-    public Map<Column, List<Interval>> getAllAvailableIntervals() {
+    public Map<String, List<Interval>> getAllAvailableIntervals() {
 
         Map<String, List<Interval>> allAvailableIntervals = getAvailableIntervalsByTable();
         return columns.stream()
+                .map(Column::getName)
                 .collect(
                         Collectors.toMap(
                                 Function.identity(),
-                                column -> new SimplifiedIntervalList(
-                                        allAvailableIntervals.getOrDefault(column.getName(), Collections.emptyList())
+                                name -> new SimplifiedIntervalList(
+                                        allAvailableIntervals.getOrDefault(name, Collections.emptyList())
                                 )
                         )
                 );
