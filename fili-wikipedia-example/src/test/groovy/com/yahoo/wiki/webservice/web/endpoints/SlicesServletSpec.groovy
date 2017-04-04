@@ -69,7 +69,7 @@ class SlicesServletSpec extends Specification {
                 ${
                         dimensionNames.collect {"""
                                 {
-                                    "name":"$it",
+                                    "name":"${it.toLowerCase()}",
                                     "uri":"http://localhost:9998/dimensions/$it",
                                     "intervals":["$interval"]
                                 }
