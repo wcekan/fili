@@ -8,6 +8,9 @@ pull request if there was one.
 Current
 -------
 ### Added:
+- [Fix to use physical name instead of logical name to retrieve available interval](https://github.com/yahoo/fili/pull/226)
+    * Added `PhysicalDataSourceConstraint` class to capture physical names of columns for retrieving availble interval
+
 - [CompositePhysicalTable Core Components Refactor](https://github.com/yahoo/fili/pull/179)
     * Added `ConcretePhysicalTable` and `ConcreteAvailability` to model table in druid datasource and its availabillity in the new table availability structure
     * Added class variable for `DataSourceMetadataService` and `ConfigurationLoader` into `AbstractBinderFactory` for application to access
@@ -58,6 +61,13 @@ Current
 - [Support timeouts for lucene search provider](https://github.com/yahoo/fili/pull/183)
 
 ### Changed:
+
+- [Fix to use physical name instead of logical name to retrieve available interval](https://github.com/yahoo/fili/pull/226)
+    * `getAllAvailbleIntervals` in `ConcreteAvailability` no longer filters out unconfigured columns, instead table's `getAllAvailbleIntervals` does
+    * `getAvailbleIntervals` in `Availbality` now takes `PhysicalDataSourceConstraint` instead of `DataSourceConstraint`
+    * `Availbility` no longer takes a set of columns on the table, only table needs to know
+    * `getAllAvailbleIntervals` in `Availbility` now returns a map of column physical name to interval list instead of column to interval list
+    * `TestDataSourceMetadataService` now takes map from string to list of intervals instead of column to list of intervals for constructor
 
 - [Allow GranularityComparator to return static instance](https://github.com/yahoo/fili/pull/225)
     * Implementation of [PR #193](https://github.com/yahoo/fili/pull/193) suggests an possible improvement
