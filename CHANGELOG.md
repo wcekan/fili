@@ -8,6 +8,10 @@ pull request if there was one.
 Current
 -------
 ### Added:
+- [Method for finding coarsest ZonedTimeGrain](https://github.com/yahoo/fili/pull/230)
+    * Added utility method for returning coarsest `ZonedTimeGrain` from a collection of `ZonedTimeGrain`s. This is
+    useful to construct composite tables that requires the coarsest `ZonedTimeGrain` among a set of tables.
+
 - [CompositePhysicalTable Core Components Refactor](https://github.com/yahoo/fili/pull/179)
     * Added `ConcretePhysicalTable` and `ConcreteAvailability` to model table in druid datasource and its availabillity in the new table availability structure
     * Added class variable for `DataSourceMetadataService` and `ConfigurationLoader` into `AbstractBinderFactory` for application to access
